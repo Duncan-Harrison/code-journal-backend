@@ -1,15 +1,8 @@
 import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from './useUser.ts';
 import { User } from '../lib';
 
-type AuthData = {
-  user: User;
-  token: string;
-};
-
-export function SignInForm() {
-  const { handleSignIn } = useUser();
+export function RegistrationForm() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -25,16 +18,16 @@ export function SignInForm() {
         body: JSON.stringify(userData),
       };
 
-      const res = await fetch('/api/auth/sign-in', req);
+      const res = await fetch('/api/auth/sign-up', req);
       if (!res.ok) {
         throw new Error(`fetch Error ${res.status}`);
       }
 
-      const { user, token } = (await res.json()) as AuthData;
-      handleSignIn(user, token);
-      navigate('/');
+      const user = (await res.json()) as User;
+      alert(`Succesfully registerd ${user.username} as userId ${user.userId}.`);
+      navigate('/sign-in');
     } catch (err) {
-      alert(`Error signing in: ${err}`);
+      alert(`Error registering user: ${err}`);
     } finally {
       setIsLoading(false);
     }
@@ -43,7 +36,7 @@ export function SignInForm() {
   return (
     <div>
       <div>
-        <h1>Sign In</h1>
+        <h1>Registration</h1>
       </div>
       <form onSubmit={handleSubmit}>
         <label>
@@ -55,7 +48,7 @@ export function SignInForm() {
           <input type="password" required name="password" />
         </label>
         <button type="submit" disabled={isLoading}>
-          Sign In
+          Register
         </button>
       </form>
     </div>
