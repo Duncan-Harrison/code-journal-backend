@@ -135,7 +135,7 @@ app.get('/api/entries/:entryId', authMiddleware, async (req, res, next) => {
 
 app.put('/api/entries/:entryId', authMiddleware, async (req, res, next) => {
   try {
-    const [title, notes, photoUrl] = req.body;
+    const { title, notes, photoUrl } = req.body;
     const entryId = Number(req.params.entryId);
     if (!Number.isInteger(entryId) || entryId < 1) {
       throw new ClientError(400, 'entryId must be a positive integer');

@@ -1,5 +1,5 @@
 import { type FormEvent, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { User } from '../lib';
 import { useUser } from './useUser';
 
@@ -50,13 +50,16 @@ export function RegistrationForm() {
           Username
           <input type="text" required name="username" />
         </label>
+        <br />
         <label>
           Password
           <input type="password" required name="password" />
         </label>
+        <br />
         <button type="submit" disabled={isLoading}>
           Register
         </button>
+        <Link to="/sign-in">Current User? Sign In Here!</Link>
       </form>
     </div>
   );
