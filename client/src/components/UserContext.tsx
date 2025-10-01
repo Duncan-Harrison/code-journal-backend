@@ -1,6 +1,5 @@
-import { ReactNode, createContext, useState } from 'react';
-import { User, saveAuth, removeAuth } from '../lib';
-import { TokenExpiredError } from 'jsonwebtoken';
+import { ReactNode, createContext, useState, useEffect } from 'react';
+import { User, saveAuth, removeAuth, readToken, readUser } from '../lib';
 
 export type UserContextValues = {
   user: User | undefined;
@@ -27,7 +26,10 @@ type Props = {
 export function UserProvider({ children }: Props) {
   const [user, setUser] = useState<User>();
   const [token, setToken] = useState<string>();
-
+  useEffect(() => {
+    setUser(readUser());
+    setToken(readToken());
+  }, []);
   function handleSignIn(user: User, token: string): void {
     setUser(user);
     setToken(token);

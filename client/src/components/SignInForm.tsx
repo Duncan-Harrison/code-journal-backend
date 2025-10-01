@@ -1,4 +1,4 @@
-import { type FormEvent, useState } from 'react';
+import { type FormEvent, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from './useUser.ts';
 import { User } from '../lib';
@@ -12,7 +12,12 @@ export function SignInForm() {
   const { handleSignIn } = useUser();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
+  const { user } = useUser();
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {

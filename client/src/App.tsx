@@ -6,17 +6,20 @@ import { NotFound } from './pages/NotFound';
 import { SignInForm } from './components/SignInForm';
 import { RegistrationForm } from './components/RegistrationForm';
 import './App.css';
+import { UserProvider } from './components/UserContext';
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<NavBar />}>
-        <Route path="/sign-in" element={<SignInForm />} />
-        <Route path="/sign-up" element={<RegistrationForm />} />
-        <Route index element={<EntryList />} />
-        <Route path="details/:entryId" element={<EntryForm />} />
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
+    <UserProvider>
+      <Routes>
+        <Route path="/" element={<NavBar />}>
+          <Route path="/sign-in" element={<SignInForm />} />
+          <Route path="/sign-up" element={<RegistrationForm />} />
+          <Route index element={<EntryList />} />
+          <Route path="details/:entryId" element={<EntryForm />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </UserProvider>
   );
 }

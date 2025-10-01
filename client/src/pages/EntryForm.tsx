@@ -7,6 +7,7 @@ import {
   removeEntry,
   updateEntry,
 } from '../data';
+import { useUser } from '../components/useUser';
 
 /**
  * Form that adds or edits an entry.
@@ -22,6 +23,7 @@ export function EntryForm() {
   const [error, setError] = useState<unknown>();
   const [isDeleting, setIsDeleting] = useState(false);
   const navigate = useNavigate();
+  const { user } = useUser();
   const isEditing = entryId && entryId !== 'new';
 
   useEffect(() => {
@@ -38,8 +40,9 @@ export function EntryForm() {
         setIsLoading(false);
       }
     }
+    if (!user) navigate('/sign-in');
     if (isEditing) load(+entryId);
-  }, [entryId, isEditing]);
+  }, [user, entryId, isEditing]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

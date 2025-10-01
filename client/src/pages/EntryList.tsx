@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaPencilAlt } from 'react-icons/fa';
 import { Entry, readEntries } from '../data';
+import { useUser } from '../components/useUser';
 
 export function EntryList() {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown>();
-
+  const navigate = useNavigate();
+  const { user } = useUser();
   useEffect(() => {
     async function load() {
       try {
@@ -19,8 +21,12 @@ export function EntryList() {
         setIsLoading(false);
       }
     }
-    load();
-  }, []);
+    if (user) {
+      load();
+    } else {
+      navigate('/sign-in');
+    }
+  }, [user]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) {

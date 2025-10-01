@@ -1,10 +1,17 @@
-import { type FormEvent, useState } from 'react';
+import { type FormEvent, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User } from '../lib';
+import { useUser } from './useUser';
 
 export function RegistrationForm() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { user } = useUser();
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
